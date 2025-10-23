@@ -37,7 +37,17 @@ pipeline {
                 }
             }
     	}
-   }
+   
+
+	stage ('kubernetes deployment of asg bugg webapp application') {
+		steps {
+			withKubeConfig([credentialsId: 'kubelogin']) {
+				sh('kubectl delete all --all -n devsecops')
+				sh ('kubectl apply -f deployment.yaml --namespace=devsecops')
+			}
+		}
+	}
+}
 
 }
 	   
